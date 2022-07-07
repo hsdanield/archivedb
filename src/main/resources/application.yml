@@ -1,0 +1,54 @@
+spring:
+  #DASOURCE MYSQL
+  datasource-mysql:
+    url: jdbc:mysql://localhost:3306/photovoltaic?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driverClassName: com.mysql.cj.jdbc.Driver
+    maximumPoolSize: 5
+    hikari:
+      connection-timeout: 480000
+      #      validation-timeout: 2000
+      idle-timeout: 0
+      #      auto-commit: false
+      minimum-idle: 10
+      maximum-pool-size: 50
+      max-lifetime: 25200000
+      poolName: HikariPoolApplcation
+      ### MYsql Optimization ## comment out for other DB
+      data-source-properties:
+        useConfigs: maxPerformance,fullDebug
+        rewriteBatchedStatements: true
+
+  #DASOURCE POSTGRESQL
+  datasource-postgresql:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=photovoltaic
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+    hikari:
+      connection-timeout: 2000
+      validation-timeout: 2000
+      idle-timeout: 0
+      auto-commit: false
+      minimum-idle: 10
+      maximum-pool-size: 50
+      max-lifetime: 25200000
+      poolName: HikariPoolApplcation
+
+data-type:
+
+  postgresql:
+    integerTypes: integer, int, smallint, bigint
+    floatTypes: real, double, numeric
+    characterTypes: character varying, varchar, character, char, text
+    dateTypes: timestamp, date, time, interval
+    booleanTypes: boolean
+    varEndpoint: postgresql
+
+  mysql:
+    integerTypes: tinyint, smallint, mediumint, int, bigint
+    floatTypes: float, double
+    characterTypes: varchar, char
+    dateTypes: date, time, datetime, timestamp, year
+    varEndpoint: mysql

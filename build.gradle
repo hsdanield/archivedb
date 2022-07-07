@@ -1,0 +1,45 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.7'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'br.com.archivedb'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	springfoxVersion = '2.9.2'
+}
+
+dependencies {
+
+	implementation "io.springfox:springfox-swagger2:${springfoxVersion}"
+	implementation "io.springfox:springfox-swagger-ui:${springfoxVersion}"
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.1'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.1'
+	implementation 'org.springframework.data:spring-data-commons:2.6.0'
+	implementation 'org.apache.commons:commons-csv:1.8'
+
+	//database
+//	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
+	runtimeOnly 'mysql:mysql-connector-java'
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'com.h2database:h2'
+
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+}
+
+test {
+	useJUnitPlatform()
+}
