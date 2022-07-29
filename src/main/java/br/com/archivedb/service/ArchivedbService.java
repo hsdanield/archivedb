@@ -70,7 +70,7 @@ public class ArchivedbService {
                 boolean verifyColumnsAndHeaders = true;
 
                 List<String> nameColumns = new ArrayList<>();
-                List<String> headers = csvParser.getHeaderNames();
+                List<String> headers = new ArrayList<>(csvParser.getHeaderNames().stream().toList());
 
                 sql = SqlUtil.sqlInformationSchema(tableName, schemaName);
 
@@ -82,6 +82,9 @@ public class ArchivedbService {
                     nameColumns.add(informationSchemaList.get(i).getColumnName());
                     types[i] = informationSchemaList.get(i).getDataTypeCode();
                 }
+
+                Collections.sort(nameColumns);
+                Collections.sort(headers);
 
                 if (nameColumns.size() == headers.size()) {
                     for (int i = 0; i < nameColumns.size(); i++) {
@@ -95,18 +98,19 @@ public class ArchivedbService {
                 }
 
                 if (verifyColumnsAndHeaders) {
-                    String questionMark = ArchiveDbUtil.questionMark(nameColumns);
+
+                    String questionMark = ArchiveDbUtil.questionMark(headers);
                     sql = SqlUtil.sqlInsert(tableName, headers, questionMark);
 
                     List<CSVRecord> csvRecords = csvParser.getRecords().stream().toList();
                     List<Object[]> parameters = new ArrayList<Object[]>();
 
                     for (CSVRecord csvRecord : csvRecords) {
-                        List<Object> auxParameters = new ArrayList<Object>();
+                        ArrayList<Object> temp = new ArrayList<Object>();
                         for (InformationSchema obj : informationSchemaList) {
-                            auxParameters.add(csvRecord.get(obj.getColumnName()));
+                            temp.add(csvRecord.get(obj.getColumnName()));
                         }
-                        parameters.add(ArchiveDbUtil.deleteBracket(auxParameters.toString()).split(","));
+                        parameters.add( temp.toArray() );
                     }
 
                     csvParser.close();

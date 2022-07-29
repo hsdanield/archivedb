@@ -17,6 +17,7 @@ public class SqlUtil {
             builder.append(" and table_schema = '")
                     .append(tableName).append("' ");
         }
+        builder.append(" ORDER BY column_name");
         return builder.toString();
     }
 
@@ -75,7 +76,7 @@ public class SqlUtil {
         StringBuilder builder = new StringBuilder()
                 .append("SELECT ")
                 .append(ArchiveDbUtil.deleteBracket(listColumnName.toString()))
-                .append("* FROM ")
+                .append(" FROM ")
                 .append(tableName);
         if(!ObjectUtils.isEmpty(orderBy)) builder.append(" ORDER BY ").append(orderBy);
         builder.append(" LIMIT ")
